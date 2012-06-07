@@ -13,9 +13,9 @@ global.passed = 0;
         console.log( string + ': ' + result);
     }
     
-    test('iz.use callable', iz.use('Animals.EvilDuck'));
+    test('iz.Use callable', iz.Use('Animals.EvilDuck'));
 
-    iz.package('do.stuff', function (root_object) {
+    iz.Package('do.stuff', function (root_object) {
         var self = root_object;
 
         self.do_things = function() {
@@ -25,15 +25,15 @@ global.passed = 0;
         return self;
     });
         
-    test('iz.package creates module', typeof iz.loaded_packages['do.stuff'] === 'object');
+    test('iz.Package creates module', typeof iz.loaded_packages['do.stuff'] === 'function');
     
-    var dostuff = iz.module('do.stuff').new();
+    var dostuff = new iz.Module('do.stuff')();
     
-    test("created package contains appropriate methods", typeof dostuff['do_things'] === 'function');
-    test("created package contains inherited methods", typeof dostuff['can'] === 'function');
-    test("created package doesn't contains invalid methods", typeof dostuff['figgle'] !== 'function'); 
+    test("created Package contains appropriate methods", typeof dostuff['do_things'] === 'function');
+    test("created Package contains inherited methods", typeof dostuff['can'] === 'function');
+    test("created Package doesn't contains invalid methods", typeof dostuff['figgle'] !== 'function'); 
     
-    iz.package('do.more', { extends: 'do.stuff' }, function (root_object) {
+    iz.Package('do.more', { extends: 'do.stuff' }, function (root_object) {
         var self = root_object;
         self.has('name', { builder: function(meta) { return 'william'; },
                            isa: 'string' });
@@ -45,7 +45,7 @@ global.passed = 0;
         return self;
     });
     
-    var domore = iz.module('do.more').new();
+    var domore = new iz.Module('do.more')();
     test('iz.extends superclass methods are visible', typeof domore['do_things'] === 'function');
     test('iz.extends superclass methods are callable', domore.do_things() == 'doing things');
     test('object.can() can see methods from superclasses', domore.can('do_things'));
@@ -55,7 +55,7 @@ global.passed = 0;
     console.log(domore.super('do_things')());
     
     
-    iz.package('do.other', { with: 'do.more' }, function (root_object) {
+    iz.Package('do.other', { mixin: 'do.more' }, function (root_object) {
         var self = root_object;
         self.has({ num: { isa: 'number', 'default': 22} });
         self.do_other = function() {
@@ -65,13 +65,13 @@ global.passed = 0;
         return self;
     });
     
-    var doother = iz.module('do.other').new();
+    var doother = new iz.Module('do.other')();
     
-    test('iz.with extends object', typeof doother['do_things'] === 'function' &&
+    test('iz.mixin extends object', typeof doother['do_things'] === 'function' &&
                                    typeof doother['do_more'] === 'function');
-    //test('iz.with includes accessors', typeof doother['name'] === 'function');
-    test('iz.can recognizes with-derived functions ', doother.can('name'));
-    test('iz.with accessors are accessible', doother.name() === 'william');
+    //test('iz.mixin includes accessors', typeof doother['name'] === 'function');
+    test('iz.can recognizes mixin-derived functions ', doother.can('name'));
+    test('iz.mixin accessors are accessible', doother.name() === 'william');
     
     doother.has('other', { isa: 'string', default: 'something else'});
     
@@ -88,9 +88,9 @@ global.passed = 0;
     
     
         
-   iz.package('do.another', function (root_object) {
+   iz.Package('do.another', function (root_object) {
        var self = root_object;
-       self.with('do.more');
+       self.mixin('do.more');
 
        self.has( {
            num: { isa: 'number', 'default': 17},
@@ -106,19 +106,22 @@ global.passed = 0;
    
    
    
-   var doanother = iz.module('do.another').new();
+   var doanother = new iz.Module('do.another')({ str: "Nick" });
    
-    test('iz.with in package prototype works', (typeof doanother['do_things'] === 'function' &&
+    test('iz.mixin in Package prototype works', (typeof doanother['do_things'] === 'function' &&
         typeof doanother['do_more'] === 'function'));
     test('do_another works', doanother.do_another() == 'doing another');
     test('has with multiple attributes works', typeof doanother['num'] === 'function' && 
                                                 typeof doanother['str'] === 'function');
     test('defaults on has work', doanother.num() == 17);
+    test('arguments to new set attributes', doanother.str() == "Nick");
+    
+    
 
       
-    var third = iz.module('do.more').new();
+    var third = new iz.Module('do.more')();
     third.name('John');
-    var fourths = iz.module('do.more').new();
+    var fourths = new iz.Module('do.more')();
     test('no bleedover between object attributes', (third.name() !== fourths.name()));
     
         
@@ -128,10 +131,10 @@ global.passed = 0;
             var third = 3;
             third = first;
             first = second;
-            second = iz.module('do.stuff').new();
-            thirds = iz.module('do.more').new();
+            second = new iz.Module('do.stuff')();
+            thirds = new iz.Module('do.more')();
             console.log(thirds.meta.ISA.join(':'));
-            var fourth = iz.module('do.more').new();
+            var fourth = new iz.Module('do.more')();
             thirds.do_more();            
             thirds.name('john');
             thirds.do_more();
