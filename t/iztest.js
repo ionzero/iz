@@ -1,8 +1,10 @@
 var foo = require('iz');
 var iz = require('iz');
+var util = require('util');
 
 global.tests = 0;
 global.passed = 0;
+
     function test(string, val) {
         global.tests++;
         var result= "** FAIL **";
@@ -25,7 +27,7 @@ global.passed = 0;
         return self;
     });
         
-    test('iz.Package creates module', typeof iz.loaded_packages['do.stuff'] === 'function');
+    test('iz.Package creates module', typeof iz.Module('do.stuff') === 'function');
     
     var dostuff = new iz.Module('do.stuff')();
     
@@ -123,6 +125,27 @@ global.passed = 0;
     third.name('John');
     var fourths = new iz.Module('do.more')();
     test('no bleedover between object attributes', (third.name() !== fourths.name()));
+    test('object.get_attribute_state does what we expect', typeof doanother.get_current_state() == 'object');
+    
+    console.log('third: ' + util.inspect(doanother.get_current_state()) );
+//    iz.Tetchy(true);
+    
+    
+    iz.Package('do.things', function (root_object) {
+        var self = root_object;
+        self.mixin('do.more');
+
+        self.has( {
+            num: { isa: 'number', 'defalt': 17},
+            str: { is: 'string', 'default': 'bob'}
+        });
+        self.do_another = function() {
+            console.log('doing another!')
+            return('doing another');
+        };
+        return self;
+    });
+    
     
         
         function do_stuff() {
