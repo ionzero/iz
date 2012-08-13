@@ -146,6 +146,13 @@ global.passed = 0;
         return self;
     });
     
+	var original = new iz.Module('do.things')({ num: 18 });
+	var localized = iz.localize(original);
+	test('original and localized have the same value after localization', original.num() == localized.num());
+	original.num(23);
+	test('original and localized have the same value when localized is unchanged, but original is changed', original.num() == localized.num());
+	localized.num(172);
+	test('original and localized have the different value after localized is changed', original.num() != localized.num());
     
         
         function do_stuff() {
