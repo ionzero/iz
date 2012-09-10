@@ -1,0 +1,32 @@
+{
+  "name": "iz",
+  "version": "1.0",
+  "description": "Robust Javascript Object System with an easy-to-remember syntax, prototypical and class-like inheritance, mixins and other OO niceties.",
+  "url": "http://soft.ionzero.com/iz/",
+  "keywords": [
+    "iz",
+	"objects",
+	"mixin",
+	"mixins",
+	"inheritance",
+	"prototype"
+  ],
+  "author": "Jason Kuri jayk@ionzero.com",
+  "lib": ".",
+  "main": "./lib/iz.js",
+  "scripts": {
+	"test": "mocha --recursive t/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://example.com:iz.git"
+  },
+  "dependencies": {},
+  "devDependencies": {
+	"mocha": "1.x"
+  },
+  "engines": {
+    "node": ">=0.6"
+  }
+
+}
