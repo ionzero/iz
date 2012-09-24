@@ -44,7 +44,6 @@ describe('IZ Core:', function () {
 		
 		it('object.can() can see methods from superclasses', function() {
 			assert.ok(domore.can('do_things'));
-		    
 		});
 		
 		it('subclass methods can override superclass', function() {
@@ -56,6 +55,8 @@ describe('IZ Core:', function () {
 			assert.equal(domore.super('do_things')(),'doing things');
 		});
 	});
+	
+	// TODO: Add tests for Constructor from superclass
 	
 
 });

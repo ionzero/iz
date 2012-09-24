@@ -68,22 +68,45 @@ describe('IZ Core:', function () {
 			assert.equal(doother.do_more(), 'I am doing more');
 		});
 		
-
+	});
+	
+	describe('Raw Object based mixin:', function() {
+		var bob = {
+			foo: 26,
+			bar: 100,
+			do_regular: function() {
+				return 'doing regular stuff';
+			}
+		};
 		
-		it('testdescription', function() {
+		iz.Package('extendaregular', {mixin: bob}, function(root_object) { 
+			var self = root_object;
+			self.has('something', { isa: 'string', builder: function(meta) { return 'in the way she moves'; }});
+			self.do_somethingelse = function() {
+				return "breaking the speed of the sound of loneliness";
+			};
+			return self;
+		});
+	
+		var ex = new iz.Module('extendaregular')();
+		it('can extend a regular object', function() {
+			assert.equal(typeof(ex.foo), 'number');
+			assert.equal(typeof(ex.something), 'function');
+			assert.equal(typeof(ex.do_regular), 'function');
 			
 		});
-		
-		it('testdescription', function() {
-			
+		it('can access original elements', function() {
+			assert.equal(ex.foo, 26);
+			assert.equal(ex.do_regular(), 'doing regular stuff');
 		});
-		
-		it('testdescription', function() {
-			
+		it('can access subclass elements', function() {
+			assert.equal(ex.something(), 'in the way she moves');
+			assert.equal(ex.do_somethingelse(), 'breaking the speed of the sound of loneliness');
 		});
-		
-		it('testdescription', function() {
-			
-		});
+		it('can modify subclass attributes without affecting original', function() {
+			ex.foo = 99;
+			assert.equal(bob.foo, 26);
+			assert.equal(ex.foo, 99);
+		})
 	});
 });

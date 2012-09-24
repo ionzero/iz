@@ -11,7 +11,13 @@
 	"inheritance",
 	"prototype"
   ],
-  "author": "Jason Kuri jayk@ionzero.com",
+  "author": "Jay Kuri  <jayk@ionzero.com>",
+  "contributors": [
+	{
+		"name": "Ionzero LLC",
+		"email": "information@ionzero.com"
+	}
+  ],
   "lib": ".",
   "main": "./lib/iz.js",
   "scripts": {

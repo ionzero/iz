@@ -114,5 +114,6 @@ describe('IZ Core:', function () {
 		});
 	});
 	
+	// TODO: Add tests for Constructor
 
 });
