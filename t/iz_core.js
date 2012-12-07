@@ -16,10 +16,15 @@ describe('IZ Core:', function () {
 
 			iz.Package('do.stuff', function (root_object) {
 		        var self = root_object;
-
-				self.has('age', { builder: function(meta) { return 19; },
+                
+				self.has('age', {  builder: function(meta) { return 19; },
 		                           isa: 'number' });
-		
+		        
+		         self.has('weight', { ro:true, builder: function() {return 160; },
+		         					 isa: 'number' });				 
+		         					 
+		        
+		         					 		        
 				self.has('birthdate', { isa: 'string', default: '1993-08-08'});
 		        self.do_things = function() {
 		            //console.log('doing_things!');
@@ -27,7 +32,7 @@ describe('IZ Core:', function () {
 		        };
 		        return self;
 		    });
-		
+		    dostuff = new iz.Module('do.stuff')({ weight: 100 });
 			var test = iz.Module('do.stuff');
 			assert.equal(typeof(test), 'function');
 		
@@ -53,6 +58,31 @@ describe('IZ Core:', function () {
 		it('attribute creation with has works', function() {
 			assert.equal(typeof(dostuff['age']), 'function');
 			assert.notEqual(dostuff.age(), undefined);
+		});
+		
+		
+		
+		it('trying to pass a value to read only fails correctly', function() {
+					var readOnly=false;
+					
+					try {
+					//pass any value in an attempt to change the read only value, but it throws an exception
+					dostuff.weight(160);
+					}
+					catch(e){
+						readOnly=true;
+					}
+					assert.ok(readOnly);
+		});
+		
+		it('attribute builder functions work with RO set', function() {
+			assert.equal(dostuff.weight(), 160);
+		});
+		
+		it('can set value on object creation of a RO attribute definition', function() {
+			dostuff = new iz.Module('do.stuff')({ weight: 100 });
+			assert.equal(dostuff.weight(), 100);
+			
 		});
 		
 		it('attribute builder functions work', function() {
