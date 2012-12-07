@@ -32,7 +32,7 @@ describe('IZ Core:', function () {
 		        };
 		        return self;
 		    });
-		    dostuff = new iz.Module('do.stuff')({ weight: 100 });
+		   
 			var test = iz.Module('do.stuff');
 			assert.equal(typeof(test), 'function');
 		
