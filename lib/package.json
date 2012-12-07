@@ -1,7 +1,7 @@
 {
   "name": "iz",
   "version": "1.0",
-  "description": "Robust Javascript Object System with an easy-to-remember syntax, prototypical and class-like inheritance, mixins and other OO niceties.",
+  "description": "Robust Object System with an easy-to-remember syntax, prototypical and class-like inheritance, mixins and other OO niceties.",
   "url": "http://soft.ionzero.com/iz/",
   "keywords": [
     "iz",
@@ -21,7 +21,7 @@
   "lib": ".",
   "main": "./lib/iz.js",
   "scripts": {
-	"test": "mocha --recursive t/"
+	"test": "mocha --harmony-proxies --recursive t/"
   },
   "repository": {
     "type": "git",
@@ -34,5 +34,4 @@
   "engines": {
     "node": ">=0.6"
   }
-
 }
