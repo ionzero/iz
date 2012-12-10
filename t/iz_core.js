@@ -23,11 +23,12 @@ describe('IZ Core:', function () {
 		         self.has('weight', { ro:true, builder: function() {return 160; },
 		         					 isa: 'number' });				 
 		         					 
-		        
+		        //Should probably insert some testing for the check_value 
+		        //attribute definition for .has
 		         					 		        
 				self.has('birthdate', { isa: 'string', default: '1993-08-08'});
 		        self.do_things = function() {
-		            //console.log('doing_things!');
+		            
 		            return 'doing things';
 		        };
 		        return self;
@@ -66,7 +67,8 @@ describe('IZ Core:', function () {
 					var readOnly=false;
 					
 					try {
-					//pass any value in an attempt to change the read only value, but it throws an exception
+					//pass any value in an attempt to change the read only value, but it throws an 
+					//exception
 					dostuff.weight(160);
 					}
 					catch(e){
