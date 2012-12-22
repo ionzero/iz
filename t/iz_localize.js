@@ -73,13 +73,23 @@ describe('IZ Localization:', function () {
 			delete localized_obj.address['number'];
 
 			assert.equal(typeof(localized_obj.address['number']), 'undefined');
+			assert.equal(localized_obj.address.hasOwnProperty('number'), false);
+			
 		});
 		
 		it('deleting items in localized copy leaves original alone', function() {
 			var localized_obj = iz.localize(original);
 			
 			delete localized_obj.address['number'];
-			assert.equal(original.address.number, 123);
+		    assert.equal(original.address.number, 123);
+		});
+		
+		it('undefined items in localized are not mistaken for deleted items', function() {
+			var localized_obj = iz.localize(original);
+			
+			localized_obj.address['number'] = undefined;
+
+			assert.equal(localized_obj.address.hasOwnProperty('number'), true);
 		});
 
         it("able to accurately determine what's different in the localized copy", function() {
@@ -87,7 +97,7 @@ describe('IZ Localization:', function () {
 			
 			localized_obj.address.number = 992;
 			assert.equal(original.address.number, 123);
-			assert.deepEqual(localized_obj._get_only_localized_data(), { address: { number: 992}});
+			assert.deepEqual(iz.get_localized_changes(localized_obj), { address: { number: 992}});
 		});
 	});
 	
@@ -212,8 +222,10 @@ describe('IZ Localization:', function () {
             var localized = iz.localize(original);
             
             localized.address().number = 116;
-            assert.deepEqual(localized._get_only_localized_data(), { address: { number: 116 }});
+            assert.deepEqual(iz.get_localized_changes(localized), { address: { number: 116 }});
         });
+        
+        
         
         it('Able to localize a subclass', function() {
     		iz.Package('do.more', { extends: 'do.stuff' }, function (root_object) {
