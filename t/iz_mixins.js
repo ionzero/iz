@@ -11,36 +11,33 @@ describe('IZ Core:', function () {
 
 	describe('Mixin based inheritence:', function() {
 
-		iz.Package('do.stuff', function (root_object) {
-	        var self = root_object;
+		iz.Package('do.stuff', function (Class) {
 
-	        self.do_things = function() {
+	        Class.do_things = function() {
 	            //console.log('doing_things!');
 	            return 'doing things';
 	        };
-	        return self;
+	        return Class;
 	    });
 	
-		iz.Package('do.more', { extends: 'do.stuff' }, function (root_object) {
-	        var self = root_object;
-	        self.has('name', { builder: function(meta) { return 'william'; },
+		iz.Package('do.more', { extends: 'do.stuff' }, function (Class) {
+	        Class.has('name', { builder: function(meta) { return 'william'; },
 	                           isa: 'string' });
 
-	        self.do_more = function() {
+	        Class.do_more = function() {
 	            //console.log('doing more for ' + this.name());
 	            return('doing more');
 	        };
-	        return self;
+	        return Class;
 	    });
 	
-		iz.Package('do.other', { mixin: 'do.more' }, function (root_object) {
-	        var self = root_object;
-	        self.has({ num: { isa: 'number', 'default': 22} });
-	        self.do_other = function() {
+		iz.Package('do.other', { mixin: 'do.more' }, function (Class) {
+	        Class.has({ num: { isa: 'number', 'default': 22} });
+	        Class.do_other = function() {
 	            console.log('doing other!');
 	            return('doing other');
 	        };
-	        return self;
+	        return Class;
 	    });
 	
 	
@@ -80,12 +77,12 @@ describe('IZ Core:', function () {
 		};
 		
 		iz.Package('extendaregular', {mixin: bob}, function(root_object) { 
-			var self = root_object;
-			self.has('something', { isa: 'string', builder: function(meta) { return 'in the way she moves'; }});
-			self.do_somethingelse = function() {
+			var Class = root_object;
+			Class.has('something', { isa: 'string', builder: function(meta) { return 'in the way she moves'; }});
+			Class.do_somethingelse = function() {
 				return "breaking the speed of the sound of loneliness";
 			};
-			return self;
+			return Class;
 		});
 	
 		var ex = new iz.Module('extendaregular')();

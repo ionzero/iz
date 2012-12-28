@@ -14,24 +14,23 @@ describe('IZ Core:', function () {
 		
 		it('iz.Package works', function() {
 
-			iz.Package('do.stuff', function (root_object) {
-		        var self = root_object;
+			iz.Package('do.stuff', function (Class) {
                 
-				self.has('age', {  builder: function(meta) { return 19; },
+				Class.has('age', {  builder: function(meta) { return 19; },
 		                           isa: 'number' });
 		        
-		         self.has('weight', { ro:true, builder: function() {return 160; },
+		         Class.has('weight', { ro:true, builder: function() {return 160; },
 		         					 isa: 'number' });				 
 		         					 
 		        //Should probably insert some testing for the check_value 
 		        //attribute definition for .has
 		         					 		        
-				self.has('birthdate', { isa: 'string', default: '1993-08-08'});
-		        self.do_things = function() {
+				Class.has('birthdate', { isa: 'string', default: '1993-08-08'});
+		        Class.do_things = function() {
 		            
 		            return 'doing things';
 		        };
-		        return self;
+		        return Class;
 		    });
 		   
 			var test = iz.Module('do.stuff');

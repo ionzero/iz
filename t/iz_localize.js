@@ -106,19 +106,18 @@ describe('IZ Localization:', function () {
 
     	before(function() {
 
-        	iz.Package('do.stuff', function (root_object) {
-                var self = root_object;
+        	iz.Package('do.stuff', function (Class) {
 
-        		self.has('age', { builder: function(meta) { return 19; },
+        		Class.has('age', { builder: function(meta) { return 19; },
                                    isa: 'number' });
 
-        		self.has('birthdate', { isa: 'string', default: '1993-08-08'});
-        		self.has('address', { isa: 'object'});
-                self.do_things = function() {
+        		Class.has('birthdate', { isa: 'string', default: '1993-08-08'});
+        		Class.has('address', { isa: 'object'});
+                Class.do_things = function() {
                     //console.log('doing_things!');
                     return 'doing things';
                 };
-                return self;
+                return Class;
             });
 
     	});    
@@ -228,16 +227,15 @@ describe('IZ Localization:', function () {
         
         
         it('Able to localize a subclass', function() {
-    		iz.Package('do.more', { extends: 'do.stuff' }, function (root_object) {
-    	        var self = root_object;
-    	        self.has('name', { builder: function(meta) { return 'william'; },
+    		iz.Package('do.more', { extends: 'do.stuff' }, function (Class) {
+    	        Class.has('name', { builder: function(meta) { return 'william'; },
     	                           isa: 'string' });
 
-    	        self.do_more = function() {
+    	        Class.do_more = function() {
     	            //console.log('doing more for ' + this.name());
     	            return('doing more');
     	        };
-    	        return self;
+    	        return Class;
     	    }); 
     	    var original = new iz.Module('do.more')();
     	    

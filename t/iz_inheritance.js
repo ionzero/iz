@@ -10,26 +10,24 @@ describe('IZ Core:', function () {
 	
 	describe('Class based Inheritance:', function() {
 		
-		iz.Package('do.stuff', function (root_object) {
-	        var self = root_object;
+		iz.Package('do.stuff', function (Class) {
 
-	        self.do_things = function() {
+	        Class.do_things = function() {
 	            //console.log('doing_things!');
 	            return 'doing things';
 	        };
-	        return self;
+	        return Class;
 	    });
 		
-		iz.Package('do.more', { extends: 'do.stuff' }, function (root_object) {
-	        var self = root_object;
-	        self.has('name', { builder: function(meta) { return 'william'; },
+		iz.Package('do.more', { extends: 'do.stuff' }, function (Class) {
+	        Class.has('name', { builder: function(meta) { return 'william'; },
 	                           isa: 'string' });
 
-	        self.do_more = function() {
+	        Class.do_more = function() {
 	            //console.log('doing more for ' + this.name());
 	            return('doing more');
 	        };
-	        return self;
+	        return Class;
 	    });
 	
 		var domore = new iz.Module('do.more')();
