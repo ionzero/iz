@@ -19,17 +19,27 @@ describe('IZ Core:', function () {
 				Class.has('age', {  builder: function(meta) { return 19; },
 		                           isa: 'number' });
 		        
-		         Class.has('weight', { ro:true, builder: function() {return 160; },
-		         					 isa: 'number' });				 
+		        Class.has('weight', { readonly:true, builder: function() {return 160; },
+		         					 isa: 'number' });		
+		         					 
+		        var counter_prv = Class.has('counter', { isa: 'number', private: true, default: 0 });		 
 		         					 
 		        //Should probably insert some testing for the check_value 
 		        //attribute definition for .has
 		         					 		        
 				Class.has('birthdate', { isa: 'string', default: '1993-08-08'});
+				
 		        Class.do_things = function() {
-		            
 		            return 'doing things';
 		        };
+		        
+		        // this is for private variables - testing the recipe for truly hidden private variables.
+		        Class.bump = function() {
+		            
+		            var counter = counter_prv.bind(this);
+		            return counter(counter()+1);
+		        }
+		        
 		        return Class;
 		    });
 		   
@@ -37,7 +47,7 @@ describe('IZ Core:', function () {
 			assert.equal(typeof(test), 'function');
 		
 		});
-		
+				
 		it('can create object from package', function() {
 			dostuff = new iz.Module('do.stuff')();
 			assert.equal(typeof(dostuff), 'object');
@@ -109,6 +119,21 @@ describe('IZ Core:', function () {
 			}
 			assert.ok(passed);
 		})
+		
+		it('private attribute recipe works', function() {
+		    dostuff.bump();
+		    assert(dostuff.bump(), 2);
+		});
+		
+		it('private attributes cannot be accessed from outside the object', function() {
+		    var passed = false;
+		    try {
+		        dostuff.counter(17);
+		    } catch(e) {
+		        passed = true;
+		    }
+		    assert.ok(passed);
+		});
 		
 		it('can add attribute after object creation', function() {
 			dostuff.has('other', { isa: 'string', default: 'something else'});
