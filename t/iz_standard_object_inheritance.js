@@ -1,6 +1,7 @@
 var iz = require('iz');
 var assert = require('assert');
 var util = require('util');
+var events = require('events');
 
 describe('IZ Core:', function () {
     
@@ -28,6 +29,17 @@ describe('IZ Core:', function () {
                            isa: 'string' });
 
         Class.do_more = function() {
+            //console.log('doing more for ' + this.name());
+            return('doing more');
+        };
+        return Class;
+    });
+    
+    iz.Package('do.events', { extends: events.EventEmitter }, function (Class) {
+        Class.has('name', { builder: function(meta) { return 'william'; },
+                           isa: 'string' });
+
+        Class.do_events = function() {
             //console.log('doing more for ' + this.name());
             return('doing more');
         };
@@ -92,5 +104,17 @@ describe('IZ Core:', function () {
 		});	
 	});
 	
+	describe('IZ based subclass of function prototype', function() {
+	    
+	    var doevents = new iz.Module('do.events')();
+	    
+	    it('iz.extends superclass methods are visible', function() {
+	        assert.equal(typeof(doevents['on']), 'function');
+	    });
+	    
+	    it('iz.extends subclass methods are visible', function() {
+	        assert.equal(typeof(doevents['do_events']), 'function');
+	    });
+	});
 	
 });
