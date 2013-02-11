@@ -1,0 +1,4 @@
+Ionzero Object System TODO List:
+
+* Add checks for valid class and attribute names (neither 
+  should include anything that can't be in a normal variable name)  2013-01-14
