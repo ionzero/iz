@@ -168,8 +168,58 @@ describe('IZ Core:', function () {
 			assert.equal(typeof(foo['quack']), 'function');
 			assert.equal(foo.quack(), 'Evil quack');
 		});
+		
+		it('object.bind_cb binds properly', function() {
+		    dostuff = new iz.Module('do.stuff')();
+		    var bound_callback = dostuff.bind_cb('bound_callback', function() {
+	            return this.bump();
+	        });
+	        
+	        var count = dostuff.bump();
+	        var bumped = bound_callback();
+	        
+	        assert.equal(count+1, bumped);
+	        
+		});
+		
+		it('object.bind_cb without name binds properly', function() {
+		    dostuff = new iz.Module('do.stuff')();
+		    var bound_callback = dostuff.bind_cb(function() {
+	            return this.bump();
+	        });
+	        
+	        var count = dostuff.bump();
+	        var bumped = bound_callback();
+	        
+	        assert.equal(count+1, bumped);
+	        
+		});
+		
+		it('iz.bind_cb binds properly', function() {
+		    dostuff = new iz.Module('do.stuff')();
+		    var bound_callback = iz.bind_cb(dostuff,'bound_callback', function() {
+	            return this.bump();
+	        });
+	        
+	        var count = dostuff.bump();
+	        var bumped = bound_callback();
+	        
+	        assert.equal(count+1, bumped);
+	        
+		});
+		
+		it('object.bind_cb without name binds properly', function() {
+		    dostuff = new iz.Module('do.stuff')();
+		    var bound_callback = iz.bind_cb(dostuff, function() {
+	            return this.bump();
+	        });
+	        
+	        var count = dostuff.bump();
+	        var bumped = bound_callback();
+	        
+	        assert.equal(count+1, bumped);
+	        
+		});
 	});
 	
-	// TODO: Add tests for Constructor
-
 });
