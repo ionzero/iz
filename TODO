@@ -4,3 +4,5 @@ Ionzero Object System TODO List:
   should include anything that can't be in a normal variable name)  2013-01-14
 
 * Add documentation for bind_cb and object tagging behavior 2013-02-16
+
+* Add tests for 'required' and 'undefined' as attribute value
