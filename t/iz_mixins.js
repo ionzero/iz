@@ -39,6 +39,16 @@ describe('IZ Core:', function () {
 	        };
 	        return Class;
 	    });
+	    
+    	iz.Package('do.less', function (Class) {
+    	    
+	        Class.do_less = function() {
+	            console.log('doing less!');
+	            return('doing less');
+	        };
+	        //console.log(util.inspect(Class));
+	        return Class;
+	    });
 	
 	
 	    var doother = new iz.Module('do.other')();
@@ -63,6 +73,14 @@ describe('IZ Core:', function () {
 				return 'I am doing more';
 			};
 			assert.equal(doother.do_more(), 'I am doing more');
+		});
+		
+		it("runtime mixins don't affect base class", function() {
+		    var newother = new iz.Module('do.other')();
+		    newother.mixin('do.less');
+		    
+		    
+		    assert.equal(doother._.does['do.less'], undefined);
 		});
 		
 	});

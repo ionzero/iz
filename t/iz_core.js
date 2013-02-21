@@ -140,9 +140,16 @@ describe('IZ Core:', function () {
 			assert.equal(typeof(dostuff['other']),'function')
 		});
 		
-		it('post-new added attributes work', function() {
+		it('instance attributes work', function() {
 			assert.equal(dostuff.other(), 'something else');
 		});
+		
+		it("instance attributes don't affect parent class", function() {
+		    var dotoo = new iz.Module('do.stuff')();
+			
+			assert.equal(dotoo.can('other'), false);
+		});
+		
 		
 		it('post-new added attributes can be set', function() {
 			dostuff.other('bob');
