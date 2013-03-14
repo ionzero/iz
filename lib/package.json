@@ -14,7 +14,7 @@
   "author": "Jay Kuri  <jayk@ionzero.com>",
   "contributors": [
 	{
-		"name": "Ionzero LLC",
+		"name": "Ionzero INC",
 		"email": "information@ionzero.com"
 	}
   ],
@@ -32,6 +32,6 @@
 	"mocha": "1.x"
   },
   "engines": {
-    "node": ">=0.6"
+    "node": ">=0.10"
   }
 }
