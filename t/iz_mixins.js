@@ -40,6 +40,14 @@ describe('IZ Core:', function () {
 	        return Class;
 	    });
 	    
+        iz.Package('do.mixin', { extends : 'do.other'}, function(Class) {
+            Class.domixin = function() {
+                console.log('do.mixin...');
+                return 'doing mixin';
+            }
+            return Class;
+        });
+
     	iz.Package('do.less', function (Class) {
     	    
 	        Class.do_less = function() {
@@ -52,6 +60,10 @@ describe('IZ Core:', function () {
 	
 	
 	    var doother = new iz.Module('do.other')();
+	    var domixin = new iz.Module('do.mixin')();
+		it('iz.mixin does do_more?', function() {
+			assert.equal(domixin.does('do_more'), true)
+		});
 		
 		it('iz.mixin extends object', function() {
 			assert.equal(typeof(doother['do_more']),'function');
