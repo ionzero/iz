@@ -62,7 +62,7 @@ describe('IZ Core:', function () {
 	    var doother = new iz.Module('do.other')();
 	    var domixin = new iz.Module('do.mixin')();
 		it('iz.mixin does do_more?', function() {
-			assert.equal(domixin.does('do_more'), true)
+			assert.equal(domixin.does('do.more'), true)
 		});
 		
 		it('iz.mixin extends object', function() {
