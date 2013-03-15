@@ -66,11 +66,11 @@ found in 'node_modules/Foo/Bar.js')
 
 ### Mixins ###
 
-Adds the functionality of the given class to self.  This is similar to
-Roles in perl or Mixins in other languages.  All the methods and
-attributes of the package are copied by reference onto the current
-object.  Note that because of this, any changes made to the content of
-any array or object attributes will affect the original class.
+This is similar to Roles in perl or Mixins in other languages.  All
+the methods and attributes of the package are copied by reference onto
+the current object.  Note that because of this, any changes made to
+the content of any array or object attributes will affect the original
+class.
 
 If you are creating classes to be included via the *mixin* mechanism,
 you can provide an 'overlay_attributes' array attribute.  If this
