@@ -14,8 +14,8 @@ describe('IZ Localization:', function () {
 			name: 'foo',
 			age: 18,
 			address: {
-					number: 123,
-					street: 'Main St',
+					number: 2130,
+					street: 'W. 51st Pl',
 					city: 'Chicago',
 					state: 'Illinois',
 					zip: '60609'
@@ -63,7 +63,7 @@ describe('IZ Localization:', function () {
 			var localized_obj = iz.localize(original);
 			
 			localized_obj.address.number = 992;
-			assert.equal(original.address.number, 123);
+			assert.equal(original.address.number, 2130);
 			assert.equal(localized_obj.address.number, 992);
 		});
 		
@@ -81,7 +81,7 @@ describe('IZ Localization:', function () {
 			var localized_obj = iz.localize(original);
 			
 			delete localized_obj.address['number'];
-		    assert.equal(original.address.number, 123);
+		    assert.equal(original.address.number, 2130);
 		});
 		
 		it('undefined items in localized are not mistaken for deleted items', function() {
@@ -96,7 +96,7 @@ describe('IZ Localization:', function () {
 			var localized_obj = iz.localize(original);
 			
 			localized_obj.address.number = 992;
-			assert.equal(original.address.number, 123);
+			assert.equal(original.address.number, 2130);
 			assert.deepEqual(iz.get_localized_changes(localized_obj), { address: { number: 992}});
 		});
 	});
@@ -197,7 +197,7 @@ describe('IZ Localization:', function () {
         
         it('sub-objects are localized', function() {
             var original = new iz.Module('do.stuff')();
-            original.address({ street: 'Main', number: 123});
+            original.address({ street: 'Main', number: 2130});
             var localized = iz.localize(original);
             
             assert.equal(localized.address().number, original.address().number);
@@ -205,11 +205,11 @@ describe('IZ Localization:', function () {
         
         it('changes to sub-objects are localized', function() {
             var original = new iz.Module('do.stuff')();
-            original.address({ street: 'Main', number: 123});
+            original.address({ street: 'Main', number: 2130});
             var localized = iz.localize(original);
             
             localized.address().number = 116;
-            assert.equal(original.address().number, 123);
+            assert.equal(original.address().number, 2130);
             assert.notEqual(localized.address().number, original.address().number);
         });
         
@@ -217,7 +217,7 @@ describe('IZ Localization:', function () {
         it("able to accurately determine what's different in the localized copy", function() {
 
             var original = new iz.Module('do.stuff')();
-            original.address({ street: 'Main', number: 123});
+            original.address({ street: 'Main', number: 2130});
             var localized = iz.localize(original);
             
             localized.address().number = 116;
