@@ -1,4 +1,4 @@
-## IZ Object System ##
+# IZ Object System #
     
 The IZ Object System, or *iz*, provides a mechanism for the creation
 of robust javascript objects. 
@@ -26,6 +26,14 @@ Some features are:
 * attribute type checking (including user-defined checking)
 * deep object localization
 
+What follows is a walkthrough of how to use iz.  IZ has a lot of functionality
+which is documented more thoroughly in the [docs folder](docs/) as well as IZ's github 
+[wiki](http://github.com/ionzero/iz/wiki).
+
+###TL;DR###
+
+Us too sometimes. Scroll to the bottom for the TL;DR section.
+
 ### Creating 'Classes' ###
 
 To begin with, Javascript doesn't have classes. So what the hell are we talking
@@ -41,8 +49,7 @@ file you wish to use it in.  That looks like this:
 
 	var iz = require('iz');
 
-Now.. creating a Class is easy.  Create a new file and place the following in it.  
-Save it as MyClass.js:
+Now.. creating a Class is easy.  Create a new file and place the following in it. Save it as MyClass.js:
 
 	var iz = require('iz');
 
@@ -121,5 +128,88 @@ will be added to the base class, and hence all objects created from the base
 class will get it. 
 
 
+###Too Long; Didn't Read###
 
+To create an IZ based class, make a .js file.  Periods in the class name are 
+converted to '/' for the sake of loading files.  The following would be the contents
+of Bird/Duck.js.  
+
+	var iz = require('iz');
+
+	// create Bird.Duck class that inherits from Bird class.
+    module.exports = iz.Package('Bird.Duck', { 'extends' : 'Bird' }, function(Class) {
+
+        // Mix in 'Flight' class.
+        Class.mixin('Flight');
+
+        // Mix in Logger so we can do this.log();
+        Class.mixin('Logger');
+
+        Class.has({
+            type : { isa : 'string' },
+            weight : { isa : 'number' },
+
+            // use default for simple values - assigned by value.
+            excitable : { isa : 'boolean', default: false },
+
+            // friends needs a builder and not a default because each instance needs it's own array.
+            // builder is run on a per-instance basis the first time the attribute is requested
+            // the return value is the default.
+            friends : { isa: 'array', builder: function(fieldname) { return new Array(); } }
+        });
+
+        Class.quack = function() {
+            // if we are excitable, then we have a lot to say
+            if (this.excitable()) {
+                return "Quack Quack Quack Quack!";
+            } else {
+                return "Quack";
+            }
+        };
+
+        // Surprise!
+        Class.surprise = function() {
+
+        	var i;
+
+        	console.log(this.quack());
+
+           	// log that a duck of our type flew away
+           	this.log(this.type() + " duck was surprised and flew away!");
+
+           	// use our mixed-in fly_away method
+           	this.fly_away();
+
+           	for (i = 0; i < this.friends().length ; i++ ) {
+           		this.friends()[i].surprise();
+           	}
+
+        };
+
+        Class.add_friend = function(friend) {
+        	// add a friend to our friends array.  Note the () on friends, 
+        	// because it's an accessor.
+        	this.friends().push(friend);
+        }
+        
+        // return the created class.  (DON'T FORGET TO DO THIS!)
+        return Class;
+    });
+
+Use our Duck class:
+
+	// load the iz module
+	var iz = require('iz');
+
+	// use the Bird.Duck class
+	var Duck = iz.Use('Bird.Duck');
+
+	// Create an object
+	var duck1 = new Duck({ type: 'mallard', excitable: true });
+
+	var duck2 = new Duck({ type: 'wood' });
+
+	duck1.add_friend(duck2);
+
+	duck1.surprise();
 
