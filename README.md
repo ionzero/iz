@@ -1,257 +1,125 @@
 ## IZ Object System ##
     
 The IZ Object System, or *iz*, provides a mechanism for the creation
-of robust javascript objects.  Some features are:
-    
-* Multi-level class-like inheritance
-* Mixins
-* object intro-spection
-* simple attribute creation
-* private attributes that may only be get and set via method calls
-* attribute type checking (including user-defined checking)
-* deep object localization
+of robust javascript objects. 
     
 IZ is designed to make it easy to create objects and object hierarchies in a
 way that will be familiar to most developers who have worked with object
 oriented concepts in other languages. Behind the scenes, the iz object system does
 this in a very Javascript native way and in the most efficient way practical,
 using prototypical inheritence and other Javascript native mechanisms. In fact,
-once the object is created, it is indistinguishable from any other Javascript object,
-as such no special handling is necessary.
+once the object is created, it is practically indistinguishable from any other 
+Javascript object, as such no special handling is necessary even in code that 
+knows nothing about IZ objects.
 
 The end result is a very usable and approachable way of writing and using
 objects in javascript, with complete support for features and abilities 
 that are complex to implement in standard javascript.
 
-Example: 
-
-    var Mynah = iz.Use('Animal.Bird.Mynah');
-    var mymynah = new Myna({ mimic : 'duck' });
-    mymynah.makesound(); // quack!
-    mymynah.mimic('cow');
-    mymynah.makesound(); // moo!
-
-Note that while we use the term 'Class' frequently in this documentation.  It is
-important to know that Javascript has no notion of a Class or namespace.  IZ borrows
-the name and nomenclature for familiarity and ease of understanding only.  IZ uses
-prototypical inheritance and uses 'Class names' only as a mechanism for naming and
-retrieving prototypes.  
-
-For more information on Javascript's prototypical inheritance (and many other goodies), 
-please refer to Douglas Crockford's excellent book, 'Javascript: The Good Parts.'
-
-
-### Class Declaration ###
-
-Classes are defined by requiring 'iz' and then using the iz.Package
-declaration. Classes can extend other classes. Classes can have
-attributes with defaults. Attributes can also be set at object
-construction time. Attributes can be private. Attributes can also have
-a 'builder' which is a function that is called to define the attribute
-value. This is necessary for things like Arrays.
-
-Classes are found using directory path search (i.e. 'Bird.Duck' will be
-found in 'Bird/Duck.js' (on node, this would be within the node_modules directory)
-
-    var iz = require('iz');
-
-    module.exports = iz.Package('Bird.Duck', { 'extends' : 'Bird' }, function(Class) {
-
-        // inherits all attributes of 'Bird'
-        
-        Class.has({
-            type : { isa : 'string' },
-            weight : { isa : 'number' },
-            excitable : { isa : 'boolean', default: false }
-        });
-
-        Class.quack = function() {
-            
-            // if we are excitable, then we have a lot to say
-            if (this.excitable()) {
-                return "Quack Quack Quack Quack!";
-            } else {
-                return "Quack";
-            }
-        };
-        
-        // return the created class.  (DON'T FORGET TO DO THIS!)
-        return Class;
-    });
-
-Note the above example is for a class defined in it's own file.  It is useful to
-note that the iz.Package() routine is self-contained in it's effect, so while
-it isn't recommended, many iz.Package() definitions can exist in a single file
-without issue.
-
-### Mixins ###
-
-Mixins allow you to merge multiple objects or clases together. With a mixin,
-the methods and attributes of one object or class are to the other class or 
-object.
-
-This can be especially useful when you want to create functionality that
-would apply to many different types or classes of object. Creating a class
-intended to be mixed in will allow you to add that functionality to any object
-regardless of it's inheritance structure. In IZ mixins can be applied at
-the class level or at the instance level, allowing run-time addition of 
-defined functionality.
-
-
-#### Example ####
-
-    // do.stuff is a subclass of thingdoer
-    iz.package('Authenticator', function (Class) {
-           
-           // Lets log to whatever it is we log to.  This lets us do this.log();
-           Class.mixin('MyApp.Logger');
+Some features are:
     
-           Class.authenticate = function (username, key) {
-               
-               var user_data = this.lookup_user(username);
-               
-               if (user && user.verified_key() === key) {
-               
-                   // we authenticated! Yay!  Log it.
-                   this.log('Keyed Authentication succeeded for ' + username);
-                   return user;
-               
-               } else {
-               
-                   // we failed authentication. :-(  Log it.
-                   this.log('Keyed Authentication failed for ' + username);
-               } 
-           };
-           
-           return Class;
-       }); 
+* Multilevel class-like inheritance
+* Mixins
+* object intro-spection
+* simple attribute creation
+* private attributes that may only be get and set via method calls
+* attribute type checking (including user-defined checking)
+* deep object localization
 
-### Introspection ###
+### Creating 'Classes' ###
 
-All IZ objects can be interrogated for their abilities.  You can determine
-whether an object can perform a certain action:
+To begin with, Javascript doesn't have classes. So what the hell are we talking
+about? We use the term 'Class' frequently in this documentation. IZ borrows the
+name and  related nomenclature for familiarity and ease of understanding only.
+IZ uses prototypical inheritance and uses 'Class names' only as a mechanism for
+naming and retrieving prototypes.  What we call a class you could instead call a
+'named prototype base object.'  (Yeah, we don't want to say that over and over
+either, hence 'Class'.)
 
-    var duck = new iz.Module('Bird.Duck')();
+Ok... so getting on with it.  As with any node module you have to load iz in any
+file you wish to use it in.  That looks like this:
 
-    duck.can('quack'); // returns true if duck.quack() would function
+	var iz = require('iz');
 
-You can also inquire about what an object does using the does method.  This
-includes both mixin based behavior and inheritance.  This is the preferred
-method of testing an objects abilities:
+Now.. creating a Class is easy.  Create a new file and place the following in it.  
+Save it as MyClass.js:
 
-    // returns true if Bird is a base class of this object OR if it has been mixed in.
-    duck.does('Bird'); 
-    
-    // returns true if something in the class hierarchy has mixed in 'Flight'
-    duck.does('Flight'); 
+	var iz = require('iz');
 
-You can inquire whether the object inherits from a particular type. Note that this only
-tells of actual inheritance and not mixins. In most cases, does() is a better alternative, 
-but in some cases the actual class hierarchy may be important to you: 
+	module.exports = iz.Package('MyClass', function(Class) {
 
-    duck.isa('Bird.Duck');  // returns true if duck is a Bird.Duck object
-    duck.isa('Bird'); // works with inherited classes also
-    duck.isa(); // returns the name of the class duck is (Bird.Duck in this case)
+		// all IZ packages must return Class at the end.
+		return Class;
+	});
 
-All the information about a class can be retrieved using iz.get_metadata(object):
+Congratulations.  You have just created MyClass. You can use it in your own code
+like so:
 
-    var metadata = iz.metadata(duck);
+	iz.Use('MyClass');
+	
+	var MyClass = iz.Module('MyClass');
+	var myobject = new MyClass();
 
-### Localization ###
+The iz.Use() call is used to ensure that the Class you are about to use has been
+loaded. The iz.Module() call returns the constructor function for the class you
+requested.  Within node.js, iz.Use() returns the same as iz.Module(), so this 
+is valid as well:
 
-One of the advanced features of IZ introduces the concept of localization.
-Localization in IZ could be described as a 'lightweight deep clone' as it
-provides functionality similar to a deep clone but without the memory overhead.
-When a localized copy of an object is created, the localized object looks and
-acts exactly like the original. Very little additional memory is used to create
-the localized copy as only changes made to the local copy are recorded.
-Likewise,  changes to the original show through to the localized copy (except
-where the change is hidden by changes in the localized copy) In many ways this
-is similar to the concept of 'copy on write' (COW) that you may have encountered
-elsewhere.
+	var MyClass = iz.Use('MyClass');
 
-Localization provides the ability to do some very interesting things.  For
-example, with localization you can pass a localized copy of an object to code
-from a third party library and  be sure that no unintended modifications are
-made, as you can discard the localized copy upon completion. Localization also
-makes the concept of a 'rollback' or 'rewind' trivially simple to implement,
-all while maintaining a small memory footprint.  It is also exceedingly useful
-for debugging as it is possible to determine the exact changes made to large
-data structures.
+	var myobject = new MyClass();
 
-#### Example ####
+Which you choose is a matter of preference. 
 
-    var original = {
-        name: 'foo',
-        age: 18
-    };
-    
-    // localize my object
-    var localized_obj = iz.localize(original);
-    
-    // outputs localized_obj.name = foo
-    console.log("localized_obj.name = " + localized_obj.name);
-    
-    // setting name only affects name, the original age sticks around.
-    localized_obj.name = 'bar';
-    
-    // outputs original.name = foo
-    console.log("original.name = " + original.name);
-    
-    // outputs localized_obj.name = bar
-    console.log("localized_obj.name = " + localized_obj.name);
-    
-    // outputs localized_obj.age = 18
-    console.log("localized_obj.age = " + localized_obj.age);
-    
-    // setting the original in the parent is reflected in the localized copy, so long
-    // as the localized copy has not yet been overridden. (happy birthday!)
-    original.age = 19; 
 
-    // outputs localized_obj.age = 19
-    console.log("localized_obj.age = " + localized_obj.age);
+So, we have a class, but it wouldn't be very useful as it doesn't contain anything.
+We'd like our objects to have names... so let's give our class a name attribute using 
+Class.has():
 
-    // outputs original.age = 18
-    console.log("original.age = " + original.age);
-    
-Note that localization works well with both IZ-created objects and simple
-javascript objects. Depending on their construction, however, complex objects
-created outside of IZ may store their state in a way that prevents reliable
-localization (without modification). As such, these objects may not function
-properly when localized. It is recommended that you create passing tests to
-ensure proper behavior before and after attempting localization with 
-such objects. (see the localization documentation for more information)
+	var iz = require('iz');
 
-### Tetchy ###
+	module.exports = iz.Package('MyClass', function(Class) {
 
-The IZ object system has a "tetchy" mode which can be useful in development:
+		Class.has('name', { isa: 'string', default: 'Unknown' });
 
-    iz.Tetchy(true);
+		return Class;
+	});
 
-Tells IZ whether it should be particularly tetchy about common misuses
-/ coding mistakes. IZ will generally try to 'do the right thing' when
-in ambiguous or confusing situations.
+The arguments to Class.has() are a string, and the attribute definition.  By default, the
+name is 'Unknown', though.  And we don't want that... so when we create our object
+we give it a name right away:
 
-If iz.Tetchy() is set to true, iz will be very picky about how you
-write your code and will throw exceptions when it encounters things it
-considers likely to be an error.
+	var myobject = new MyClass({ name: 'Regina' });	
+	// print out our object's name
+	console.log("My Object is called " + myobject.name() );
 
-For example, If you pass misnamed or unknown attributes to an object
-constructor, with iz.Tetchy() set to false (the default), IZ will 
-simply ignore these extra fields. With iz.Tetchy() set to true, it 
-will throw an exception if it encounters a key it doesn't recognize. 
-Think setting 'username' in the constructor when you meant 'user_name',
-with Tetchy mode turned on, IZ would warn you about such a mistake.
+What if we want to change our object's name?
 
-Generally speaking, Tetchy will enforce some rules that might be helpful
-during development / debugging. It can be useful during pre-production as
-it will catch many easily missed coding mistakes.  That said, Tetchy mode 
-does add a very small amount of overhead to normal object operations. This 
-overhead is minimal is unlikely to significantly affect a normal 
-application, but if you wrote your code well, it is not necessary, so it is 
-by default set to false.
+	myobject.name('Reggy');
 
-Note also that Tetchy is set globally for all IZ derived objects so turning it 
-on in an application that uses modules you did not write could have unexpected
-effects.
+Now our object is called Reggy.  
+
+That's all very interesting, but what we really want is class based behavior.  So let's add
+a method.  This is just like adding a method to any other javascript object.
+
+	module.exports = iz.Package('MyClass', function(Class) {
+
+		Class.has('name', { isa: 'string', default: 'Unknown' });
+
+		Class.greet_on_console = function() {
+			console.log('Hi, My name is ' + this.name() );
+		}
+
+		return Class;
+	});
+
+Astute readers may have noticed that we suddenly have 'this'.  Right.  Methods
+in IZ are just like any other method in javascript.  Inside a method call, 'this' 
+is the instance of the object you are operating in.  So what's with 'Class', then?
+Class inside the iz.Package() call is the base class.  Anything you add to it
+will be added to the base class, and hence all objects created from the base
+class will get it. 
+
+
+
 
