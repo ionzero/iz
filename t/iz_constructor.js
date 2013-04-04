@@ -41,7 +41,7 @@ describe('IZ Constructors:', function () {
          					 		
         Class.CONSTRUCT = function(args, object_to_localize) {
             
-            var newthis = this.super('CONSTRUCT')(args, object_to_localize);
+            var newthis = this.get_super('CONSTRUCT')(args, object_to_localize);
             
             if (args['weight_in_kilos']) {
                 newthis.weight(args['weight_in_kilos'] * 2.2);
@@ -88,6 +88,20 @@ describe('IZ Constructors:', function () {
         return Class;
     });
     
+    iz.Package('SubWithCreator', { extends: 'WithCreator'}, function (Class) {
+    	Class.has('name', { isa: 'string', default: 'bill'});
+
+    	return Class;
+    });
+
+    iz.Package('SubSubWithCreator', { extends: 'SubWithCreator'}, function (Class) {
+
+    	Class._on_object_create = function(args) {
+    		this.name('William');
+    	}
+    	return Class;
+    });
+
     
 	before(function() {
 		
@@ -161,6 +175,32 @@ describe('IZ Constructors:', function () {
 		});
 	});
 	
+	describe('Initializers using superclass _on_object_create:', function() {
+		
+		it('args are set properly', function() {
+
+			var wc = new iz.Module('SubWithCreator')({ age: 27, weight: 175 });
+			assert.equal(wc.age(), 27);
+			assert.equal(wc.weight(), 175);
+	
+		});
+		
+		it("parent _on_object_create runs when we don't have one", function() {
+		    var wc = new iz.Module('SubWithCreator')({ age: 27, weight: 175 });
+			
+			assert.equal(wc._secret.args.age, 27);
+			assert.equal(wc._secret.args.weight, 175);
+		});
+
+		it("both our _on_object_create and our parent's runs when we have our own _on_object_create", function() {
+		    var wc = new iz.Module('SubSubWithCreator')({ age: 27, weight: 175 });
+			
+			assert.equal(wc.name(), 'William');
+			assert.equal(wc._secret.args.age, 27);
+			assert.equal(wc._secret.args.weight, 175);
+		});
+	});
+
 	describe('Overriding CONSTRUCT, using super CONSTRUCT:', function() {
 		
 		it('Basic overriding with arguments works', function() {

@@ -2,6 +2,8 @@ var iz = require('iz');
 var assert = require('assert');
 var util = require('util');
 
+// Localization requires harmony proxies.  skip the tests if Proxy is undefined
+if (typeof Proxy !== 'undefined') {
 describe('IZ Localization:', function () {
 	
 	before(function() {
@@ -250,3 +252,11 @@ describe('IZ Localization:', function () {
         });
     });
 });
+
+} else {
+    describe('IZ Localization', function() {
+        it.skip('Disabled due to lack of Harmony Proxy support', function() {
+            assert.ok(true);
+        })
+    });
+}
