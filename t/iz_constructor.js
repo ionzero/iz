@@ -41,7 +41,7 @@ describe('IZ Constructors:', function () {
          					 		
         Class.CONSTRUCT = function(args, object_to_localize) {
             
-            var newthis = this.get_super('CONSTRUCT')(args, object_to_localize);
+            var newthis = this.SUPER('CONSTRUCT')(args, object_to_localize);
             
             if (args['weight_in_kilos']) {
                 newthis.weight(args['weight_in_kilos'] * 2.2);
@@ -97,6 +97,7 @@ describe('IZ Constructors:', function () {
     iz.Package('SubSubWithCreator', { extends: 'SubWithCreator'}, function (Class) {
 
     	Class._on_object_create = function(args) {
+    		this.SUPER('_on_object_create')(args);
     		this.name('William');
     	}
     	return Class;

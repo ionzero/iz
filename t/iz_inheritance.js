@@ -2,7 +2,8 @@ var iz = require('iz');
 var assert = require('assert');
 var util = require('util');
 
-describe('IZ Core:', function () {
+"use strict";
+describe('IZ Inheritance:', function () {
 	
 	before(function() {
 
@@ -19,7 +20,7 @@ describe('IZ Core:', function () {
 	        return Class;
 	    });
 		
-		iz.Package('do.more', { extends: 'do.stuff' }, function (Class) {
+		iz.Package('do.more', { extends: 'do.stuff' }, function (Class, SUPER) {
 	        Class.has('name', { builder: function(meta) { return 'william'; },
 	                           isa: 'string' });
 
@@ -33,23 +34,23 @@ describe('IZ Core:', function () {
 	        return Class;
 	    });
 	
-		iz.Package('do.super', { extends: 'do.more'}, function(Class) {
+		iz.Package('do.super', { extends: 'do.more'}, function(Class, SUPER) {
 
-			var parent = Class.get_super;
 			Class.whoami = function() {
-				return 'do.super child of ' + parent('whoami')();
+				console.log(util.inspect(this));
+				return 'do.super child of ' + SUPER('whoami')() + " :" + this.name();
 			}
 
 			return Class;
 		});
 
-		iz.Package('do.supersuper', { extends: 'do.super'}, function(Class, get_super) {
+		iz.Package('do.supersuper', { extends: 'do.super'}, function(Class, SUPER) {
 
 			//console.log(typeof p);
-			//var parent = p; //Class.super;
+			//var SUPER = p; //Class.super;
 
 			Class.whoami = function() {
-				return 'do.supersuper child of ' + get_super('whoami')();
+				return 'do.supersuper child of ' + SUPER('whoami')();
 			}
 
 			return Class;
@@ -75,7 +76,7 @@ describe('IZ Core:', function () {
 		});
 		
 		it('access to super from subclass works', function() {
-			assert.equal(domore.get_super('do_things')(),'doing things');
+			assert.equal(domore.SUPER('do_things')(),'doing things');
 		});
 	});
 	
@@ -86,15 +87,15 @@ describe('IZ Core:', function () {
 
 
 		it('super(methodname) retrieves a method', function() {
-			assert.equal(typeof dosuper.get_super('whoami'), 'function');
+			assert.equal(typeof dosuper.SUPER('whoami'), 'function');
 		});
 
 		it('using super(methodname) retrieves the correct method', function() {
-			assert.equal(dosuper.get_super('whoami')(), 'do.more');
+			assert.equal(dosuper.SUPER('whoami')(), 'do.more');
 		});
 
-		it('using super() retrieves the parent object', function() {
-			assert.equal(dosuper.get_super().isa(), 'do.more');
+		it('using super() retrieves the SUPER object', function() {
+			assert.equal(dosuper.SUPER().isa(), 'do.more');
 		});
 
 		it('multi-level super works', function() {
@@ -102,7 +103,7 @@ describe('IZ Core:', function () {
 		});
 
 		it('super calls in methods work even when calling first super() in anonymous function', function() {
-			assert.equal(dosupsup.get_super('whoami')(), 'do.super child of do.more');
+			assert.equal(dosupsup.SUPER('whoami')(), 'do.super child of do.more');
 		});
 	});
 

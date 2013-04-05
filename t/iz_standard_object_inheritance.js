@@ -100,7 +100,7 @@ describe('IZ Core:', function () {
 		});
 		
 		it('access to super from subclass works', function() {
-			assert.equal(domore.get_super('do_things')(),'doing things');
+			assert.equal(domore.SUPER('do_things')(),'doing things');
 		});	
 	});
 	

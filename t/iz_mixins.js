@@ -2,7 +2,7 @@ var iz = require('iz');
 var assert = require('assert');
 var util = require('util');
 
-describe('IZ Core:', function () {
+describe('IZ Mixins:', function () {
 	
 	before(function() {
 		

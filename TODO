@@ -1,8 +1,9 @@
 Ionzero Object System TODO List:
 
-* Add checks for valid class and attribute names (neither 
-  should include anything that can't be in a normal variable name)  2013-01-14
-
 * Add documentation for bind_cb and object tagging behavior 2013-02-16
 
 * Add tests for 'required' and 'undefined' as attribute value
+
+* Make IZ work in browser:	2013-04-05
+	* remove require dependency by making iz_require work properly in-browser
+	* Adjust 'inherit from function' logic in iz.Package to remove util.inherits dependency
