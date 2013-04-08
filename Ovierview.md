@@ -55,7 +55,7 @@ found in 'Bird/Duck.js' (on node, this would be within the node_modules director
 
     var iz = require('iz');
 
-    module.exports = iz.Package('Bird.Duck', { 'extends' : 'Bird' }, function(Class) {
+    module.exports = iz.Package('Bird.Duck', { 'extends' : 'Bird' }, function(Class, SUPER) {
 
         // inherits all attributes of 'Bird'
         
@@ -101,7 +101,7 @@ defined functionality.
 #### Example ####
 
     // do.stuff is a subclass of thingdoer
-    iz.package('Authenticator', function (Class) {
+    iz.package('Authenticator', function (Class, SUPER) {
            
            // Lets log to whatever it is we log to.  This lets us do this.log();
            Class.mixin('MyApp.Logger');

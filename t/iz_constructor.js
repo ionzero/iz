@@ -4,7 +4,7 @@ var util = require('util');
 
 describe('IZ Constructors:', function () {
 	
-	iz.Package('WithConstructor', function (Class) {
+	iz.Package('WithConstructor', function (Class, SUPER) {
         
 		Class.has('age', {  builder: function(meta) { return 19; },
                            isa: 'number' });
@@ -31,7 +31,7 @@ describe('IZ Constructors:', function () {
         return Class;
     });
     
-    iz.Package('WithConstructorSuper', function (Class) {
+    iz.Package('WithConstructorSuper', function (Class, SUPER) {
         
 		Class.has('age', {  builder: function(meta) { return 19; },
                            isa: 'number' });
@@ -59,7 +59,7 @@ describe('IZ Constructors:', function () {
         return Class;
     });
     
-    iz.Package('SubConstructor', { extends: 'WithConstructor' }, function (Class) {
+    iz.Package('SubConstructor', { extends: 'WithConstructor' }, function (Class, SUPER) {
         
         Class.has('haircolor', { isa: 'string', default: 'purple'});
         
@@ -72,7 +72,7 @@ describe('IZ Constructors:', function () {
         return Class;
     });
 	
-	iz.Package('WithCreator', function (Class) {
+	iz.Package('WithCreator', function (Class, SUPER) {
         
 		Class.has('age', {  builder: function(meta) { return 19; },
                            isa: 'number' });
@@ -88,13 +88,13 @@ describe('IZ Constructors:', function () {
         return Class;
     });
     
-    iz.Package('SubWithCreator', { extends: 'WithCreator'}, function (Class) {
+    iz.Package('SubWithCreator', { extends: 'WithCreator'}, function (Class, SUPER) {
     	Class.has('name', { isa: 'string', default: 'bill'});
 
     	return Class;
     });
 
-    iz.Package('SubSubWithCreator', { extends: 'SubWithCreator'}, function (Class) {
+    iz.Package('SubSubWithCreator', { extends: 'SubWithCreator'}, function (Class, SUPER) {
 
     	Class._on_object_create = function(args) {
     		this.SUPER('_on_object_create')(args);

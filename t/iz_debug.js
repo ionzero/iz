@@ -12,7 +12,7 @@ describe('IZ Debug:', function () {
 	describe('Object Tagging:', function() {
 
         
-		iz.Package('do.stuff', function (Class) {
+		iz.Package('do.stuff', function (Class, SUPER) {
 
 	        Class.do_things = function() {
 	            //console.log('doing_things!');
@@ -21,7 +21,7 @@ describe('IZ Debug:', function () {
 	        return Class;
 	    });
 	
-		iz.Package('do.more', { extends: 'do.stuff' }, function (Class) {
+		iz.Package('do.more', { extends: 'do.stuff' }, function (Class, SUPER) {
 	        Class.has('name', { builder: function(meta) { return 'william'; },
 	                           isa: 'string' });
 
@@ -62,7 +62,7 @@ describe('IZ Debug:', function () {
 	describe('Object Tagging:', function() {
 
         
-		iz.Package('do.things', function (Class) {
+		iz.Package('do.things', function (Class, SUPER) {
 
             Class.has('counter', { isa: 'number', default: 0 });
 	        Class.do_things = function() {

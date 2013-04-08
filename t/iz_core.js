@@ -14,7 +14,7 @@ describe('IZ Core:', function () {
 		
 		it('iz.Package works', function() {
 
-			iz.Package('do.stuff', function (Class) {
+			iz.Package('do.stuff', function (Class, SUPER) {
                 
 				Class.has('age', {  builder: function(meta) { return 19; },
 		                           isa: 'number' });

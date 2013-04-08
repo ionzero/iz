@@ -15,7 +15,7 @@ describe('IZ Core:', function () {
         }
     };
 	
-	iz.Package('do.stuff', {extends: base_object }, function (Class) {
+	iz.Package('do.stuff', {extends: base_object }, function (Class, SUPER) {
 
         Class.do_things = function() {
             //console.log('doing_things!');
@@ -24,7 +24,7 @@ describe('IZ Core:', function () {
         return Class;
     });
     
-    iz.Package('do.more', { extends: 'do.stuff' }, function (Class) {
+    iz.Package('do.more', { extends: 'do.stuff' }, function (Class, SUPER) {
         Class.has('name', { builder: function(meta) { return 'william'; },
                            isa: 'string' });
 
@@ -35,7 +35,7 @@ describe('IZ Core:', function () {
         return Class;
     });
     
-    iz.Package('do.events', { extends: events.EventEmitter }, function (Class) {
+    iz.Package('do.events', { extends: events.EventEmitter }, function (Class, SUPER) {
         Class.has('name', { builder: function(meta) { return 'william'; },
                            isa: 'string' });
 

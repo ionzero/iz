@@ -11,7 +11,7 @@ describe('IZ Inheritance:', function () {
 	
 	describe('Class based Inheritance:', function() {
 		
-		iz.Package('do.stuff', function (Class) {
+		iz.Package('do.stuff', function (Class, SUPER) {
 
 	        Class.do_things = function() {
 	            //console.log('doing_things!');
@@ -38,7 +38,7 @@ describe('IZ Inheritance:', function () {
 
 			Class.whoami = function() {
 				console.log(util.inspect(this));
-				return 'do.super child of ' + SUPER('whoami')() + " :" + this.name();
+				return 'do.super child of ' + SUPER(this, 'whoami')() + " :" + this.name();
 			}
 
 			return Class;
@@ -50,7 +50,7 @@ describe('IZ Inheritance:', function () {
 			//var SUPER = p; //Class.super;
 
 			Class.whoami = function() {
-				return 'do.supersuper child of ' + SUPER('whoami')();
+				return 'do.supersuper child of ' + SUPER(this,'whoami')();
 			}
 
 			return Class;
@@ -86,24 +86,24 @@ describe('IZ Inheritance:', function () {
 		var dosupsup = new iz.Module('do.supersuper')();
 
 
-		it('super(methodname) retrieves a method', function() {
+		it('obj.SUPER(methodname) retrieves a method', function() {
 			assert.equal(typeof dosuper.SUPER('whoami'), 'function');
 		});
 
-		it('using super(methodname) retrieves the correct method', function() {
+		it('using obj.SUPER(methodname) retrieves the correct method', function() {
 			assert.equal(dosuper.SUPER('whoami')(), 'do.more');
 		});
 
-		it('using super() retrieves the SUPER object', function() {
+		it('using this.SUPER() retrieves the Superclass base object', function() {
 			assert.equal(dosuper.SUPER().isa(), 'do.more');
 		});
 
-		it('multi-level super works', function() {
-			assert.equal(dosupsup.whoami(), 'do.supersuper child of do.super child of do.more');
+		it('multi-level SUPER works', function() {
+			assert.equal(dosupsup.whoami(), 'do.supersuper child of do.super child of do.more :william');
 		});
 
-		it('super calls in methods work even when calling first super() in anonymous function', function() {
-			assert.equal(dosupsup.SUPER('whoami')(), 'do.super child of do.more');
+		it('SUPER calls in methods work even when calling first super() in anonymous function', function() {
+			assert.equal(dosupsup.SUPER('whoami')(), 'do.super child of do.more :william');
 		});
 	});
 

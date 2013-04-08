@@ -108,7 +108,7 @@ describe('IZ Localization:', function () {
 
     	before(function() {
 
-        	iz.Package('do.stuff', function (Class) {
+        	iz.Package('do.stuff', function (Class, SUPER) {
 
         		Class.has('age', { builder: function(meta) { return 19; },
                                    isa: 'number' });
@@ -229,7 +229,7 @@ describe('IZ Localization:', function () {
         
         
         it('Able to localize a subclass', function() {
-    		iz.Package('do.more', { extends: 'do.stuff' }, function (Class) {
+    		iz.Package('do.more', { extends: 'do.stuff' }, function (Class, SUPER) {
     	        Class.has('name', { builder: function(meta) { return 'william'; },
     	                           isa: 'string' });
 
