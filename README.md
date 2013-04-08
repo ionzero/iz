@@ -53,7 +53,7 @@ Now.. creating a Class is easy.  Create a new file and place the following in it
 
 	var iz = require('iz');
 
-	module.exports = iz.Package('MyClass', function(Class) {
+	module.exports = iz.Package('MyClass', function(Class, parent) {
 
 		// all IZ packages must return Class at the end.
 		return Class;
@@ -85,7 +85,7 @@ Class.has():
 
 	var iz = require('iz');
 
-	module.exports = iz.Package('MyClass', function(Class) {
+	module.exports = iz.Package('MyClass', function(Class, parent) {
 
 		Class.has('name', { isa: 'string', default: 'Unknown' });
 
@@ -109,7 +109,7 @@ Now our object is called Reggy.
 That's all very interesting, but what we really want is class based behavior.  So let's add
 a method.  This is just like adding a method to any other javascript object.
 
-	module.exports = iz.Package('MyClass', function(Class) {
+	module.exports = iz.Package('MyClass', function(Class, parent) {
 
 		Class.has('name', { isa: 'string', default: 'Unknown' });
 
@@ -137,7 +137,7 @@ of Bird/Duck.js.
 	var iz = require('iz');
 
 	// create Bird.Duck class that inherits from Bird class.
-    module.exports = iz.Package('Bird.Duck', { 'extends' : 'Bird' }, function(Class) {
+    module.exports = iz.Package('Bird.Duck', { 'extends' : 'Bird' }, function(Class, parent) {
 
         // Mix in 'Flight' class.
         Class.mixin('Flight');
@@ -151,12 +151,22 @@ of Bird/Duck.js.
 
             // use default for simple values - assigned by value.
             excitable : { isa : 'boolean', default: false },
+            awake : { isa: 'boolean'},
 
             // friends needs a builder and not a default because each instance needs it's own array.
             // builder is run on a per-instance basis the first time the attribute is requested
             // the return value is the default.
             friends : { isa: 'array', builder: function(fieldname) { return new Array(); } }
         });
+
+        Class._on_object_create = function() {
+        
+            // call our parent class' _on_object_create
+            parent('_on_object_create')();
+
+            // wake up when we are first created.
+            this.awake(true);
+        }
 
         Class.quack = function() {
             // if we are excitable, then we have a lot to say

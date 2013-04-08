@@ -2,7 +2,7 @@ var iz = require('iz');
 var assert = require('assert');
 var util = require('util');
 
-describe('IZ Core:', function () {
+describe('IZ Mixins:', function () {
 	
 	before(function() {
 		
@@ -11,7 +11,7 @@ describe('IZ Core:', function () {
 
 	describe('Mixin based inheritence:', function() {
 
-		iz.Package('do.stuff', function (Class) {
+		iz.Package('do.stuff', function (Class, SUPER) {
 
 	        Class.do_things = function() {
 	            //console.log('doing_things!');
@@ -20,7 +20,7 @@ describe('IZ Core:', function () {
 	        return Class;
 	    });
 	
-		iz.Package('do.more', { extends: 'do.stuff' }, function (Class) {
+		iz.Package('do.more', { extends: 'do.stuff' }, function (Class, SUPER) {
 	        Class.has('name', { builder: function(meta) { return 'william'; },
 	                           isa: 'string' });
 
@@ -31,7 +31,7 @@ describe('IZ Core:', function () {
 	        return Class;
 	    });
 	
-		iz.Package('do.other', { mixin: 'do.more' }, function (Class) {
+		iz.Package('do.other', { mixin: 'do.more' }, function (Class, SUPER) {
 	        Class.has({ num: { isa: 'number', 'default': 22} });
 	        Class.do_other = function() {
 	            console.log('doing other!');
@@ -40,7 +40,7 @@ describe('IZ Core:', function () {
 	        return Class;
 	    });
 	    
-        iz.Package('do.mixin', { extends : 'do.other'}, function(Class) {
+        iz.Package('do.mixin', { extends : 'do.other'}, function(Class, SUPER) {
             Class.domixin = function() {
                 console.log('do.mixin...');
                 return 'doing mixin';
@@ -48,7 +48,7 @@ describe('IZ Core:', function () {
             return Class;
         });
 
-    	iz.Package('do.less', function (Class) {
+    	iz.Package('do.less', function (Class, SUPER) {
     	    
 	        Class.do_less = function() {
 	            console.log('doing less!');
@@ -106,8 +106,7 @@ describe('IZ Core:', function () {
 			}
 		};
 		
-		iz.Package('extendaregular', {mixin: bob}, function(root_object) { 
-			var Class = root_object;
+		iz.Package('extendaregular', {mixin: bob}, function(Class, SUPER) { 
 			Class.has('something', { isa: 'string', builder: function(meta) { return 'in the way she moves'; }});
 			Class.do_somethingelse = function() {
 				return "breaking the speed of the sound of loneliness";

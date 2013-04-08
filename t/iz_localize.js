@@ -2,6 +2,8 @@ var iz = require('iz');
 var assert = require('assert');
 var util = require('util');
 
+// Localization requires harmony proxies.  skip the tests if Proxy is undefined
+if (typeof Proxy !== 'undefined') {
 describe('IZ Localization:', function () {
 	
 	before(function() {
@@ -106,7 +108,7 @@ describe('IZ Localization:', function () {
 
     	before(function() {
 
-        	iz.Package('do.stuff', function (Class) {
+        	iz.Package('do.stuff', function (Class, SUPER) {
 
         		Class.has('age', { builder: function(meta) { return 19; },
                                    isa: 'number' });
@@ -227,7 +229,7 @@ describe('IZ Localization:', function () {
         
         
         it('Able to localize a subclass', function() {
-    		iz.Package('do.more', { extends: 'do.stuff' }, function (Class) {
+    		iz.Package('do.more', { extends: 'do.stuff' }, function (Class, SUPER) {
     	        Class.has('name', { builder: function(meta) { return 'william'; },
     	                           isa: 'string' });
 
@@ -250,3 +252,11 @@ describe('IZ Localization:', function () {
         });
     });
 });
+
+} else {
+    describe('IZ Localization', function() {
+        it.skip('Disabled due to lack of Harmony Proxy support', function() {
+            assert.ok(true);
+        })
+    });
+}
