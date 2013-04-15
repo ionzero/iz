@@ -1,35 +1,34 @@
 {
   "name": "iz",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Robust Object System with an easy-to-remember syntax, prototypical and class-like inheritance, mixins and other OO niceties.",
-  "url": "http://soft.ionzero.com/iz/",
+  "url": "https://github.com/ionzero/iz",
   "keywords": [
     "iz",
-	"objects",
-	"mixin",
-	"mixins",
-	"inheritance",
-	"prototype"
+    "objects",
+    "mixin",
+    "mixins",
+    "inheritance",
+    "prototype"
   ],
   "author": "Jay Kuri  <jayk@ionzero.com>",
   "contributors": [
-	{
-		"name": "Ionzero INC",
-		"email": "information@ionzero.com"
-	}
+    {
+      "name": "Ionzero INC",
+      "email": "information@ionzero.com"
+    }
   ],
-  "lib": ".",
   "main": "./lib/iz.js",
   "scripts": {
-	"test": "mocha --harmony-proxies --recursive t/"
+    "test": "mocha --harmony-proxies --recursive -R spec test/"
   },
   "repository": {
     "type": "git",
-    "url": "git://example.com:iz.git"
+    "url": "git://github.com/ionzero/iz.git"
   },
   "dependencies": {},
   "devDependencies": {
-	"mocha": "1.x"
+    "mocha": "1.x"
   },
   "engines": {
     "node": ">=0.10"
