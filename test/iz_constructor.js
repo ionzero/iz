@@ -1,4 +1,4 @@
-var iz = require('iz');
+var iz = require('../lib/iz');
 var assert = require('assert');
 var util = require('util');
 
