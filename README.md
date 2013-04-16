@@ -28,6 +28,8 @@ Note that while we use the term 'Class' frequently in this documentation.  It is
 
 For more information on Javascript's prototypical inheritance (and many other goodies), please refer to Douglas Crockford's excellent book, 'Javascript: The Good Parts.'
 
+Detailed documentation on IZ can be found in the [wiki](https://github.com/ionzero/iz/wiki).
+
 ## Class Declaration
 
 Classes are defined by requiring 'iz' and then using the iz.Package declaration. Classes can extend other classes. Classes can have attributes with defaults. Attributes can also be set at object construction time. Attributes can be private. Attributes can also have a 'builder' which is a function that is called to define the attribute value. This is necessary for things like Arrays.
