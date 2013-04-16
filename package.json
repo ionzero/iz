@@ -15,7 +15,7 @@
   "contributors": [
     {
       "name": "Ionzero INC",
-      "email": "information@ionzero.com"
+      "email": "oss@ionzero.com"
     }
   ],
   "main": "./lib/iz.js",
