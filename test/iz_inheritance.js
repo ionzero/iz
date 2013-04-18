@@ -37,7 +37,7 @@ describe('IZ Inheritance:', function () {
 		iz.Package('do.super', { extends: 'do.more'}, function(Class, SUPER) {
 
 			Class.whoami = function() {
-				console.log(util.inspect(this));
+				//console.log(util.inspect(this));
 				return 'do.super child of ' + SUPER(this, 'whoami')() + " :" + this.name();
 			}
 

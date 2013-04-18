@@ -1,7 +1,7 @@
 var iz = require('../lib/iz');
 var assert = require('assert');
 var util = require('util');
-var EvilDuck = require('./Animals/EvilDuck');
+var EvilDuck = require('Animals/EvilDuck');
 
 describe('IZ Require compatibility:', function () {
 	
