@@ -1,4 +1,4 @@
-var iz = require('iz');
+var iz = require('../lib/iz');
 
 var assert = require('assert');
 var util = require('util');
@@ -33,6 +33,28 @@ describe('IZ Use compatibility:', function () {
 			callback_called2 = true;
 			done2();
 		});
+	});
+
+	it('without search_path file outside path is not found', function() {
+		var failed = false;
+		var foo;
+		
+		try {
+			foo = iz.Use('Foo');
+		} catch (e) {
+			failed = true;
+		}
+		assert.equal(failed, true);
+	});
+
+	it('uses search_path properly', function() {
+		var loaded = false;
+		iz.add_search_path('./outside_path/');
+		
+		var Foo = iz.Use('Foo');
+		assert.equal(typeof Foo, 'function');
+		var foo = new Foo();
+		assert.equal(foo.foo(), 'foo');
 	});
 
 });

@@ -52,15 +52,7 @@ var MyClass = iz.Module('MyClass');
 var myobject = new MyClass();
 ```
 
-The iz.Use() call is used to ensure that the Class you are about to use has been loaded. The iz.Module() call returns the constructor function for the class you requested.  Within node.js, iz.Use() returns the same as iz.Module(), so this is valid as well:
-
-```js
-var MyClass = iz.Use('MyClass');
-
-var myobject = new MyClass();
-```
-
-Which you choose is a matter of preference. 
+The iz.Use() call is used to ensure that the Class you are about to use has been loaded. The iz.Module() call returns the constructor function for the class you requested.  Within node.js, iz.Use() returns the same as iz.Module().
 
 So, we have a class, but it wouldn't be very useful as it doesn't contain anything. We'd like our objects to have names... so let's give our class a name attribute using Class.has():
 
@@ -103,7 +95,9 @@ module.exports = iz.Package('MyClass', function(Class, SUPER) {
 });
 ```
 
-Astute readers may have noticed that we suddenly have 'this'.  Right.  Methods in IZ are just like any other method in javascript.  Inside a method call, 'this' is the instance of the object you are operating in.  So what's with 'Class', then? Class inside the iz.Package() call is the base class.  Anything you add to it will be added to the base class, and hence all objects created from the base class will get it.
+Astute readers may have noticed that we suddenly have 'this'.  Right.  Methods in IZ are just like any other method in javascript.  Inside a method call, 'this' is the instance of the object you are operating in.  So what's with 'Class', then? Class inside the iz.Package() call is the base class.  Anything you add to it will be added to the base class, and hence all objects created from the base class will get it. 
+
+More detail is available in the [Overview](Overview.md).
 
 ## Too Long; Didn't Read
 
