@@ -32,7 +32,7 @@ var indexSectionsWithContent = {
    "Functions": {
       "Symbols": true,
       "Numbers": false,
-      "A": false,
+      "A": true,
       "B": false,
       "C": true,
       "D": true,
