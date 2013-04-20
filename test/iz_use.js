@@ -57,4 +57,20 @@ describe('IZ Use compatibility:', function () {
 		assert.equal(foo.foo(), 'foo');
 	});
 
+	
+	it('using lock_search_path prevents add_search_path from adding paths', function() {
+		var added = false;
+
+		iz.lock_search_path();
+		iz.Tetchy(true);
+		try {
+			iz.add_search_path('./somethingelse/');
+			added = true;
+		} catch(e) {
+		}
+		iz.Tetchy(false);
+		assert.equal(added, false);
+
+	});
+
 });
