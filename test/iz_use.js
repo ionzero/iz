@@ -35,16 +35,16 @@ describe('IZ Use compatibility:', function () {
 		});
 	});
 
-	it.skip('without search_path file outside path is not found', function() {
+	it('without search_path file outside path is not found', function() {
 		var failed = false;
 		var foo;
 		
 		try {
 			foo = iz.Use('FooClass');
+			console.log(foo);
 		} catch (e) {
 			failed = true;
 		}
-		console.log(foo);
 		assert.equal(failed, true);
 	});
 
@@ -59,7 +59,7 @@ describe('IZ Use compatibility:', function () {
 	});
 
 	
-	it.skip('using lock_search_path prevents add_search_path from adding paths', function() {
+	it('using lock_search_path prevents add_search_path from adding paths', function() {
 		var added = false;
 
 		iz.lock_search_path();
