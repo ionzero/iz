@@ -35,7 +35,7 @@ Classes are defined by requiring 'iz' and then using the iz.Package declaration.
 Classes are found using directory path search (i.e. 'Bird.Duck' will be found in 'Bird/Duck.js' (on node, this would be within the node_modules directory).
 
 ```js
-var iz = require('iz');
+var iz = require('iz-objects');
 
 module.exports = iz.Package('Bird.Duck', { 'extends' : 'Bird' }, function(Class, SUPER) {
 

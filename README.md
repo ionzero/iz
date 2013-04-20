@@ -29,13 +29,13 @@ To begin with, Javascript doesn't have classes. So what the hell are we talking 
 Ok... so getting on with it.  As with any node module you have to load iz in any file you wish to use it in.  That looks like this:
 
 ```js
-var iz = require('iz');
+var iz = require('iz-objects');
 ```
 
 Now creating a Class is easy.  Create a new file and place the following in it. Save it as MyClass.js:
 
 ```js
-var iz = require('iz');
+var iz = require('iz-objects');
 
 module.exports = iz.Package('MyClass', function(Class, SUPER) {
 	// all IZ packages must return Class at the end.
@@ -57,7 +57,7 @@ The iz.Use() call is used to ensure that the Class you are about to use has been
 So, we have a class, but it wouldn't be very useful as it doesn't contain anything. We'd like our objects to have names... so let's give our class a name attribute using Class.has():
 
 ```js
-var iz = require('iz');
+var iz = require('iz-objects');
 
 module.exports = iz.Package('MyClass', function(Class, SUPER) {
 	Class.has('name', { isa: 'string', default: 'Unknown' });
@@ -104,7 +104,7 @@ More detail is available in the [Overview](Overview.md).
 To create an IZ based class, make a .js file.  Periods in the class name are converted to '/' for the sake of loading files.  The following would be the contents of Bird/Duck.js.  
 
 ```js
-var iz = require('iz');
+var iz = require('iz-objects');
 
 // create Bird.Duck class that inherits from Bird class.
 module.exports = iz.Package('Bird.Duck', { 'extends' : 'Bird' }, function(Class, SUPER) {
@@ -181,7 +181,7 @@ Use our Duck class:
 
 ```js
 // load the iz module
-var iz = require('iz');
+var iz = require('iz-objects');
 
 // use the Bird.Duck class
 var Duck = iz.Use('Bird.Duck');
