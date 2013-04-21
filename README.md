@@ -97,7 +97,7 @@ module.exports = iz.Package('MyClass', function(Class, SUPER) {
 
 Astute readers may have noticed that we suddenly have 'this'.  Right.  Methods in IZ are just like any other method in javascript.  Inside a method call, 'this' is the instance of the object you are operating in.  So what's with 'Class', then? Class inside the iz.Package() call is the base class.  Anything you add to it will be added to the base class, and hence all objects created from the base class will get it. 
 
-More detail is available in the [Overview](Overview.md).
+More detail is available in the Overview and the [Wiki](https://github.com/ionzero/iz/wiki).
 
 ## Too Long; Didn't Read
 
