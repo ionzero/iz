@@ -21,7 +21,8 @@ describe('IZ Localization:', function () {
 					city: 'Chicago',
 					state: 'Illinois',
 					zip: '60609'
-				 }
+				 },
+            apartments: [ 78, 22, "2D" ]
 
 		};
 		
@@ -101,6 +102,17 @@ describe('IZ Localization:', function () {
 			assert.equal(original.address.number, 2130);
 			assert.deepEqual(iz.get_localized_changes(localized_obj), { address: { number: 992}});
 		});
+
+        it("can recognize a localized array as an array", function() {
+            var localized_obj = iz.localize(original);
+            assert.equal(Array.isArray(localized_obj.apartments), true);
+        });
+
+        it("can recognize a localized array of a localized array as an array", function() {
+            var localized_obj = iz.localize(original);
+            var foo = iz.localize(localized_obj);
+            assert.equal(Array.isArray(foo.apartments), true);
+        });
 	});
 	
 	
