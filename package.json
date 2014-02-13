@@ -20,7 +20,7 @@
   ],
   "main": "./lib/iz.js",
   "scripts": {
-    "test": "mocha --harmony-proxies -R spec test/"
+    "test": "mocha --harmony -R spec test/"
   },
   "repository": {
     "type": "git",
