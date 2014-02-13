@@ -1,6 +1,6 @@
 {
   "name": "iz-objects",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Robust Object System with an easy-to-remember syntax, prototypical and class-like inheritance, mixins and other OO niceties.",
   "url": "https://github.com/ionzero/iz",
   "keywords": [
@@ -27,6 +27,7 @@
     "url": "git://github.com/ionzero/iz.git"
   },
   "dependencies": {},
+  "license": "MPL",
   "devDependencies": {
     "mocha": "1.x"
   },
