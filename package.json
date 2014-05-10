@@ -1,6 +1,6 @@
 {
   "name": "iz-objects",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Robust Object System with an easy-to-remember syntax, prototypical and class-like inheritance, mixins and other OO niceties.",
   "url": "https://github.com/ionzero/iz",
   "keywords": [
