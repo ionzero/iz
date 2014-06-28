@@ -29,7 +29,25 @@ describe('IZ Localization:', function () {
 		it('can localize', function() {
 			var localized_obj = iz.localize(original);	
 		});
+
+        it('localization of non objects does not explode', function() {
+            var f = 'foo';
+            var localized_obj = iz.localize(f);
+            assert.equal(f, localized_obj); 
+        });
 		
+        it('localization of undefined does not explode', function() {
+            var f = undefined;
+            var localized_obj = iz.localize(f);
+            assert.equal(f, localized_obj); 
+        });
+
+        it('localization of null does not explode', function() {
+            var f = null;
+            var localized_obj = iz.localize(f);
+            assert.equal(f, localized_obj); 
+        });
+
 		it('localization of regular objects fools deepEqual', function() {
             var localized_obj = iz.localize(original);
             assert.deepEqual(original, localized_obj); 
