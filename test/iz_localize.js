@@ -131,6 +131,29 @@ describe('IZ Localization:', function () {
             var foo = iz.localize(localized_obj);
             assert.equal(Array.isArray(foo.apartments), true);
         });
+
+        it("able to accurately determine what is different in a localized array", function() {
+            var localized_obj = iz.localize(original);
+            
+            localized_obj.apartments.push(65);
+            localized_obj.apartments.shift();
+            assert.deepEqual(iz.get_localized_changes(localized_obj), {"apartments":{"0":22,"1":"2D","2":65,"3":undefined}});
+        });
+
+        it("adding an array to localized object is recognized in get_localized_changes", function() {
+            var localized_obj = iz.localize(original);
+            
+            localized_obj.address.bob = "hi there".split(' '); 
+            assert.deepEqual(iz.get_localized_changes(localized_obj), { address: { bob: ["hi", 'there']}});
+        });
+
+        it("adding a localized object to localized object is recognized in get_localized_changes", function() {
+            var localized_obj = iz.localize(original);
+            
+            localized_obj.address.bob = iz.localize({ name: "bob", path: "/bob" });
+            assert.deepEqual(iz.get_localized_changes(localized_obj), { address: { bob: {name:"bob", path:"/bob"}}});
+        });
+
 	});
 	
 	
@@ -246,7 +269,7 @@ describe('IZ Localization:', function () {
         });
         
 
-        it("able to accurately determine what's different in the localized copy", function() {
+        it("able to accurately determine what is different in the localized copy", function() {
 
             var original = new iz.Module('do.stuff')();
             original.address({ street: 'Main', number: 2130});
@@ -255,7 +278,6 @@ describe('IZ Localization:', function () {
             localized.address().number = 116;
             assert.deepEqual(iz.get_localized_changes(localized), { address: { number: 116 }});
         });
-        
         
         
         it('Able to localize a subclass', function() {

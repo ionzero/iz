@@ -35,17 +35,17 @@ describe('IZ global Prototypes:', function () {
 		} catch (e) {
 			failed1 = true;
 		};
-		assert.ok(failed1);
+		assert.ok(failed1, "Loading EvilDuck in iz2 fails");
 
-		iz2.Use('Animals.GoodDuck');
-		var good = iz2.Module('Animals.GoodDuck');
+		iz2.Use('Animals.GoodDuck2');
+		var good = iz2.Module('Animals.GoodDuck2');
 		assert.ok(typeof good === 'function');
 		try {
-			iz.Module('Animals.GoodDuck');
+			var thing = iz.Module('Animals.GoodDuck2');
 		} catch (e) {
 			failed2 = true;
 		};
-		assert.ok(failed2);
+		assert.ok(failed2, "Loading GoodDuck in iz fails");
 
 	});
 
@@ -69,6 +69,8 @@ describe('IZ global Prototypes:', function () {
 	it("Making non-global iz global allows it to see other global iz", function() {
 		iz2.Make_Prototypes_Global(true);
 		var evil = iz2.Module('Animals.EvilDuck');
+		// JAYK
+// 		var Animals = iz2.expose('Animals');
 
 		assert.ok(typeof evil === 'function');
 
